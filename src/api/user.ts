@@ -1,8 +1,15 @@
 import request from '@/utils/request'
+import { baseUrl } from '@/config'
+
+
+interface ILogin {
+  token: string;
+}
 
 export function login(data: { username: string, password: string }) {
-  return request({
-    url: '/vue-admin-template/user/login',
+
+  return request<ILogin>({
+    url: `${baseUrl}/person/login`,
     method: 'post',
     data
   })
@@ -15,11 +22,10 @@ export interface UserInfo {
   roles: string[]
 }
 
-export function getInfo(token: string) {
-  return request<UserInfo>({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+export function getInfo() {
+  return request({
+    url: `${baseUrl}/person/userinfo`,
+    method: 'get'
   })
 }
 

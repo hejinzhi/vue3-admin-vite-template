@@ -7,12 +7,12 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
   return {
     plugins: [vuePlugin(),
     svgPlugin({ symbolId: (name) => "icon-" + name }),
-    viteMockServe({
-      // default
-      mockPath: 'mock',
-      localEnabled: command === 'serve',
-      supportTs: true
-    }),
+    // viteMockServe({
+    //   // default
+    //   mockPath: 'mock',
+    //   localEnabled: command === 'serve',
+    //   supportTs: true
+    // }),
     ],
     resolve: {
       alias: {

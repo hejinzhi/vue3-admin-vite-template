@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "serve": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },

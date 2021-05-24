@@ -12,15 +12,15 @@
         <h3 class="title">Login Form</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="tel">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          ref="tel"
+          v-model="loginForm.tel"
+          placeholder="请输入手机号码"
+          name="tel"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 import type Form from 'element-plus/lib/el-form'
 import { defineComponent, nextTick, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -73,27 +73,27 @@ export default defineComponent({
   name: 'Login',
   setup() {
     const loginForm = ref({
-      username: 'admin',
-      password: '111111'
+      tel: '15818087802',
+      password: '123456'
     })
 
-    const validateUsername: RuleItem["validator"] = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback('Please enter the correct user name')
-      } else {
-        callback()
-      }
-    }
-    const validatePassword: RuleItem["validator"] = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback('The password can not be less than 6 digits')
-      } else {
-        callback()
-      }
-    }
+    // const validateUsername: RuleItem["validator"] = (rule, value, callback) => {
+    //   if (!validUsername(value)) {
+    //     callback('Please enter the correct user name')
+    //   } else {
+    //     callback()
+    //   }
+    // }
+    // const validatePassword: RuleItem["validator"] = (rule, value, callback) => {
+    //   if (value.length < 6) {
+    //     callback('The password can not be less than 6 digits')
+    //   } else {
+    //     callback()
+    //   }
+    // }
     const loginRules = ref<Rules>({
-      username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-      password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      tel: [{ required: true, trigger: 'blur' }],
+      password: [{ required: true, trigger: 'blur'}]
     })
 
     interface Rules {
@@ -113,6 +113,7 @@ export default defineComponent({
     const loginFormComp = ref<InstanceType<typeof Form> | null>(null)
     const store = useStore()
     function handleLogin() {
+
       loginFormComp.value?.validate(valid => {
         if (valid) {
           loading.value = true
