@@ -28,14 +28,13 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    console.log(response)
     const res = response.data;
     if (!res.data) {
-      ElMessage({
-        ElMessage: res.message || res.data.message || "Error",
-        type: "error",
-        duration: 5 * 1000,
-      });
+      // ElMessage({
+      //   ElMessage: res.message || res.data.message || "Error",
+      //   type: "error",
+      //   duration: 5 * 1000,
+      // });
       return Promise.reject(
         new Error(res.message || res.data.message || "Error")
       );
@@ -59,11 +58,11 @@ service.interceptors.response.use(
         });
       });
     } else {
-      ElMessage({
-        ElMessage: error.message,
-        type: "error",
-        duration: 5 * 1000,
-      });
+      // ElMessage({
+      //   ElMessage: error.message,
+      //   type: "error",
+      //   duration: 5 * 1000,
+      // });
       return Promise.reject(error);
     }
   }
