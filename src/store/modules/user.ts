@@ -83,17 +83,12 @@ const actions = {
   },
 
   // user logout
-    // logout({ commit, state }) {
   logout({ commit, state }: ActionContext<IUserSate, {}>) {
     return new Promise((resolve, reject) => {
-      logout().then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve(true)
-      }).catch(error => {
-        reject(error)
-      })
+      removeToken() // must remove  token  first
+      resetRouter()
+      commit('RESET_STATE')
+      resolve(true)
     })
   },
 

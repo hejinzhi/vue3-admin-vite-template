@@ -22,7 +22,7 @@
             <a target="_blank" href="https://github.com/cereschen/vue3-admin-vite-template">
               <el-dropdown-item>Github</el-dropdown-item>
             </a>
-            <el-dropdown-item divided @click.native="logout">
+            <el-dropdown-item divided @click="logout">
               <span style="display:block;">Log Out</span>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -39,6 +39,7 @@ import Hamburger from '@/components/Hamburger/index.vue'
 import { defineComponent } from 'vue'
 import { useMapGetters } from '@/utils/store'
 import { useRoute, useRouter } from 'vue-router'
+import { GlobalDataPropsKey } from '@/store/index'
 
 export default defineComponent({
   components: {
@@ -46,7 +47,7 @@ export default defineComponent({
     Hamburger
   },
   setup() {
-    const store = useStore()
+    const store = useStore(GlobalDataPropsKey)
     const route = useRoute()
     const router = useRouter()
     return {

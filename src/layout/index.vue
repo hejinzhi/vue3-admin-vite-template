@@ -10,10 +10,6 @@
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
       </div>
-      <pre>{{ sidebar }}</pre>
-
-      <pre>{{ classObj }}</pre>
-
       <app-main />
     </div>
   </div>
@@ -24,6 +20,7 @@ import { Navbar, Sidebar, AppMain } from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
 import { computed, defineComponent, reactive, toRef } from "vue";
 import { useStore } from "vuex";
+import { GlobalDataPropsKey } from '../store/index'
 
 export default defineComponent({
   name: "Layout",
@@ -32,51 +29,26 @@ export default defineComponent({
     Sidebar,
     AppMain,
   },
-  // computed: {
-  //   sidebar() {
-  //     return this.$store.state.app.sidebar;
-  //   },
-  //   device() {
-  //     return this.$store.state.app.device;
-  //   },
-  //   fixedHeader() {
-  //     return this.$store.state.settings.fixedHeader;
-  //   },
-  //   classObj() {
-  //     return {
-  //       hideSidebar: !this.sidebar.opened,
-  //       openSidebar: this.sidebar.opened,
-  //       withoutAnimation: this.sidebar.withoutAnimation,
-  //       mobile: this.device === "mobile",
-  //     };
-  //   },
-  // },
-  // mixins: [ResizeMixin],
+  mixins: [ResizeMixin],
   setup() {
-    const store = useStore();
+    const store = useStore(GlobalDataPropsKey);
     const sidebar = computed(() => store.state.app.sidebar);
     const opened  = computed(() => store.state.app.sidebar.opened);
     const hide  = computed(() => !store.state.app.sidebar.opened);
     const device = computed(() => store.state.app.device);
+    const mobile = computed(()=> store.state.app.device === 'mobile')
+    const withoutAnimation = computed(()=> store.state.app.sidebar.withoutAnimation)
     const fixedHeader = computed(() => store.state.settings.fixedHeader);
+
+
     const classObj = reactive({
         hideSidebar: hide,
         openSidebar: opened,
-        withoutAnimation: sidebar.withoutAnimation,
-        mobile: device === "mobile",
+        withoutAnimation,
+        mobile,
     });
-    // const classObj = reactive({
-    //   hideSidebar: !store.state.app.sidebar.opened,
-    //   openSidebar: store.state.app.sidebar.opened,
-    //   withoutAnimation: store.state.app.sidebar.withoutAnimation,
-    //   mobile: store.state.app.device === "mobile",
-    // });
 
-    // const classObj = reactive({
-    //   sidebar: store.state.app.sidebar,
-    //   open: store.state.app.sidebar.opened,
-    //   openSidebar: opened,
-    // })
+
 
     const handleClickOutside = () => {
       store.dispatch("app/closeSideBar", { withoutAnimation: false });

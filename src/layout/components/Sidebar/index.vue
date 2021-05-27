@@ -29,12 +29,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
+import { GlobalDataPropsKey } from '@/store/index'
 
 export default defineComponent({
   components: { SidebarItem, Logo },
   setup() {
     const router = useRouter()
-    const store = useStore()
+    const store = useStore(GlobalDataPropsKey)
     const route = useRoute()
     const activeMenu = computed(() => {
       const { meta, path } = route

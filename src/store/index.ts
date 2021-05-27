@@ -1,14 +1,19 @@
+import { createStore, Store } from "vuex";
+import { InjectionKey } from "vue";
+
 import app, { IAppState } from "./modules/app";
 import settings, { ISettingState } from "./modules/setting";
 import user, { IUserSate } from './modules/user'
 
-interface GlobalDataProps {
+
+export interface GlobalDataProps {
   app: IAppState;
   user: IUserSate;
-  setting: ISettingState
+  settings: ISettingState
 }
 
-import { createStore } from "vuex";
+export const GlobalDataPropsKey: InjectionKey<Store<GlobalDataProps>> = Symbol()
+
 
 export default createStore<GlobalDataProps>({
   getters: {

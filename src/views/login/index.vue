@@ -40,7 +40,7 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -51,7 +51,7 @@
         :loading="loading"
         type="primary"
         style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
+        @click.prevent="handleLogin"
       >Login</el-button>
 
       <div class="tips">
@@ -69,6 +69,9 @@ import { defineComponent, nextTick, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { RuleItem } from "async-validator"
+import { GlobalDataPropsKey } from '@/store/index'
+
+
 export default defineComponent({
   name: 'Login',
   setup() {
@@ -111,7 +114,7 @@ export default defineComponent({
     }, { immediate: true })
 
     const loginFormComp = ref<InstanceType<typeof Form> | null>(null)
-    const store = useStore()
+    const store = useStore(GlobalDataPropsKey)
     function handleLogin() {
 
       loginFormComp.value?.validate(valid => {
