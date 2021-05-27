@@ -1,19 +1,8 @@
 import request from '@/utils/request'
 import { baseUrl } from '@/config'
 
-
-interface ILogin {
+export interface ILogin {
   token: string;
-}
-
-
-export function login(data: { tel: string, password: string }) {
-
-  return request<ILogin>({
-    url: `${baseUrl}/person/login`,
-    method: 'post',
-    data
-  })
 }
 
 export interface IUserInfo {
@@ -23,14 +12,20 @@ export interface IUserInfo {
   roles: string[]
 }
 
+export interface LoginBodyProps {
+  tel: string;
+  password: string;
+}
+
+export const login = (data: LoginBodyProps) => {
+  return request<ILogin>({
+    url: `${baseUrl}/person/login`,
+    method: 'post',
+    data
+  })
+}
+
 export const getInfo = async() => {
   const res = await request.get<IUserInfo>(`${baseUrl}/person/userinfo`)
   return res.data
-}
-
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
 }
