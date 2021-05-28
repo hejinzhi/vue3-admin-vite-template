@@ -38,7 +38,7 @@ export default defineComponent({
       const first = matched[0]
 
       if (!isDashboard(first)) {
-        matched = [({ path: '/dashboard', meta: { title: 'Dashboard' } } as unknown as RouteLocationMatched)].concat(matched)
+        matched = [({ path: '/dashboard', meta: { title: '首页' } } as unknown as RouteLocationMatched)].concat(matched)
       }
       levelList.value = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     }
