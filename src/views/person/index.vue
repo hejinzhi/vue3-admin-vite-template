@@ -60,6 +60,7 @@
 
     <div style="margin-top: 20px">
       <el-table
+        v-loading="listLoading"
         :data="list"
         border
         fit
@@ -121,7 +122,7 @@ import { defineComponent, onMounted, reactive, ref } from "vue";
 import Pagination from "@/components/Pagination/index.vue";
 
 import { deletePerson, getPerson } from "@/api/user";
-import { PersonListProps, PersonQueryProps } from "@/interface/user";
+import { PersonListProps, QueryPersonProps } from "@/interface/user";
 import { getDepts } from "@/api/dept";
 import { DeptProps } from "@/interface/dept";
 import { ElMessageBox, ElNotification } from "element-plus";
@@ -132,10 +133,11 @@ export default defineComponent({
     Pagination,
   },
   setup() {
+    let listLoading = ref(false);
     let total = ref(0);
     let personList = ref<Array<PersonListProps>>([]);
     let deptList = ref<Array<DeptProps>>([]);
-    const listQuery = reactive<PersonQueryProps>({
+    const listQuery = reactive<QueryPersonProps>({
       page: 1,
       limit: 10,
       name: "",
@@ -157,41 +159,41 @@ export default defineComponent({
     };
 
     const getPersonList = async () => {
+      listLoading.value = true;
       const res = await getPerson(listQuery);
+      listLoading.value = false;
       personList.value = res.rows;
       total.value = res.total;
     };
     const handleCreate = () => {};
 
-    const handlePageChange = () => {
-      console.log("handlePageChange");
-    };
-
     const handleDelete = async (row: PersonListProps) => {
-      const confirmRes = await ElMessageBox.confirm(
-        "确定要删除这笔记录吗?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+      try {
+        const confirmRes = await ElMessageBox.confirm(
+          "确定要删除这笔记录吗?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          }
+        );
+        if (confirmRes) {
+          const res = await deletePerson(row.id);
+          if (res.affected) {
+            ElNotification({
+              title: "成功",
+              message: "删除成功",
+              type: "success",
+              duration: 2000,
+            });
+            getPersonList();
+          }
         }
-      );
-      if (confirmRes) {
-        const res = await deletePerson(row.id);
-        if (res.affected) {
-          ElNotification({
-            title: "成功",
-            message: "删除成功",
-            type: "success",
-            duration: 2000,
-          });
-          getPersonList();
-        }
-      }
+      } catch (error) {}
     };
     return {
-      handlePageChange,
+      listLoading,
       total,
       deptList,
       list: personList,

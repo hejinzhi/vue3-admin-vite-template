@@ -75,6 +75,23 @@ export const constantRoutes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: "/dept",
+    component: Layout,
+    redirect: "/list",
+    noShowingChildren: false,
+    hidden: false,
+    children: [
+      {
+        path: "list",
+        component: () => import("@/views/dept/index.vue"),
+        name: "部门管理",
+        meta: { title: "部门管理", icon: "tree", affix: true },
+        noShowingChildren: false,
+        hidden: false,
+      },
+    ],
+  },
   // 404 page must be placed at the end !!!
   {
     path: "/:pathMatch(.*)*",

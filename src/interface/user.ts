@@ -17,15 +17,6 @@ export interface LoginBodyProps {
   password: string;
 }
 
-export interface QueryPersonProps {
-  deptId: string;
-  limit: number;
-  name: string;
-  page: number;
-  role: string;
-  tel: string;
-}
-
 export interface PersonListProps extends CommonProps {
   dept: DeptProps;
   deptId: number;
@@ -37,7 +28,7 @@ export interface PersonListProps extends CommonProps {
   tel: string;
 }
 
-export interface PersonQueryProps {
+export interface QueryPersonProps {
   page: number;
   limit: number;
   name: string;
