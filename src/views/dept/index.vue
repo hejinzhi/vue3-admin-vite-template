@@ -151,20 +151,13 @@ export default defineComponent({
       name: "",
       type: "",
     });
-    let defaultValue = {
+    const defaultValue:DeptProps = {
       id: 0,
       name: "",
       type: "",
       remark: "",
     };
-    // let dept = reactive<DeptProps>({ ...defaultValue });
-    let dept = reactive<DeptProps>({
-      id: 0,
-      name: "",
-      type: "",
-      remark: "",
-    });
-
+    let dept = reactive<DeptProps>({ ...defaultValue });
     onMounted(() => {
       getList();
     });
@@ -178,22 +171,9 @@ export default defineComponent({
     };
 
     const handleUpdate = (row: DeptProps) => {
-      // Object.keys(row).map(
-      //   (v: string) => (dept[v] = row[v as keyof DeptProps])
-      // );
-
-      // dept.name = row.name;
-      // defaultValue = Object.assign(defaultValue, row);
-
-      // Object.keys(row).map(
-      //   (v: string) => (dept[v] = row[v as keyof DeptProps])
-      // );
-      const { id, name, remark, type } = row;
-      dept.id = id;
-      dept.name = name;
-      dept.remark = remark;
-      dept.type = type;
-
+      Object.keys(row).map(
+        (v: string) => (dept[v] = row[v])
+      );
       dialogFormVisible.value = true;
     };
 
@@ -225,10 +205,7 @@ export default defineComponent({
 
     const resetForm = () => {
       nextTick().then(() => {
-        dept.name = "";
-        dept.id = 0;
-        dept.remark = "";
-        dept.type = "";
+        Object.keys(defaultValue).map((v)=> dept[v]= defaultValue[v])
       });
       if (addDeptForm.value) {
         addDeptForm.value.resetFields();
